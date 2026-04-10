@@ -1,273 +1,281 @@
 import { useState, useEffect, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
+const PHONE = "+7 (913) 191-68-28";
+const PHONE_HREF = "tel:+79131916828";
+const WA_HREF = "https://wa.me/79131916828";
 const HERO_IMG = "https://cdn.poehali.dev/projects/2ad63936-ee7e-42bf-a6a1-2ba1cf7060aa/files/e8fed08c-77bf-4e2d-b03c-5f0281e4eca8.jpg";
 const TECH_IMG = "https://cdn.poehali.dev/projects/2ad63936-ee7e-42bf-a6a1-2ba1cf7060aa/files/e9bf28a1-6ae7-4674-a71d-c41ad73bce37.jpg";
 
-const navLinks = [
-  { label: "Услуги", href: "#services" },
-  { label: "Как работаем", href: "#process" },
-  { label: "О нас", href: "#about" },
-  { label: "Гарантия", href: "#guarantee" },
-  { label: "Отзывы", href: "#reviews" },
-  { label: "Контакты", href: "#contacts" },
-];
-
+/* ---- данные ---- */
 const services = [
-  {
-    icon: "Flame",
-    title: "Духовые шкафы",
-    color: "#EF4444",
-    bg: "rgba(239,68,68,0.08)",
-    brands: "Bosch · Siemens · Miele · Electrolux · Gorenje · Samsung",
-    issues: [
-      "Не нагревается / перегревается",
-      "Не работает гриль или конвекция",
-      "Сломан тэн или термостат",
-      "Не закрывается дверца",
-      "Ошибки на дисплее",
-    ],
-  },
-  {
-    icon: "Zap",
-    title: "Варочные панели",
-    color: "#2563EB",
-    bg: "rgba(37,99,235,0.08)",
-    brands: "AEG · Hansa · Zanussi · Candy · Indesit · Hotpoint",
-    issues: [
-      "Не включается конфорка",
-      "Трещина на стеклокерамике",
-      "Не реагирует сенсор",
-      "Искрит или щёлкает",
-      "Не держит мощность",
-    ],
-  },
-  {
-    icon: "Settings",
-    title: "Встроенная техника",
-    color: "#8B5CF6",
-    bg: "rgba(139,92,246,0.08)",
-    brands: "Neff · Gaggenau · Franke · Kuppersberg · Krona",
-    issues: [
-      "Встроенные духовки в гарнитуре",
-      "Индукционные панели",
-      "Пароварки и комби-печи",
-      "Встроенные кофемашины",
-      "Микроволновые печи",
-    ],
-  },
+  { icon: "Flame", color: "#EF4444", bg: "#FEF2F2", title: "Духовые шкафы", brands: "Bosch, Siemens, Miele, Electrolux, Gorenje, Samsung", list: ["Не нагревается или перегревается", "Не работает гриль / конвекция", "Сломан тэн или термостат", "Не закрывается дверца", "Ошибки на дисплее"] },
+  { icon: "Zap", color: "#2563EB", bg: "#EFF6FF", title: "Варочные панели", brands: "AEG, Hansa, Zanussi, Candy, Indesit, Hotpoint", list: ["Не включается конфорка", "Трещина на стеклокерамике", "Не реагирует сенсор", "Искрит или щёлкает", "Не держит мощность"] },
+  { icon: "Settings", color: "#7C3AED", bg: "#F5F3FF", title: "Встроенная техника", brands: "Neff, Gaggenau, Franke, Kuppersberg, Krona", list: ["Встроенные духовки в гарнитуре", "Индукционные панели", "Пароварки и комби-печи", "Встроенные кофемашины", "Микроволновые печи"] },
 ];
 
-const process = [
-  { num: "01", icon: "PhoneCall", title: "Звонок", desc: "Опишите поломку — дадим предварительную цену прямо по телефону." },
-  { num: "02", icon: "CalendarCheck", title: "Запись", desc: "Согласуем удобное время. Выезд в день обращения." },
-  { num: "03", icon: "ScanSearch", title: "Диагностика", desc: "Мастер приедет и бесплатно определит причину неисправности." },
-  { num: "04", icon: "Wrench", title: "Ремонт", desc: "Называем точную цену — и только с вашего согласия начинаем работу." },
-  { num: "05", icon: "BadgeCheck", title: "Гарантия", desc: "Выдаём гарантийный талон. От 6 месяцев до 2 лет." },
+const whyItems = [
+  { icon: "Timer", title: "Выезд в день обращения", desc: "Работаем ежедневно с 8:00 до 22:00. Звоните — приедем сегодня." },
+  { icon: "Banknote", title: "Диагностика бесплатно", desc: "Определяем причину поломки без скрытых платежей." },
+  { icon: "ShieldCheck", title: "Гарантия до 2 лет", desc: "Письменная гарантия на работы и запчасти." },
+  { icon: "Package", title: "Запчасти в наличии", desc: "97% ремонтов закрываем за один визит." },
+  { icon: "BadgeCheck", title: "Опыт 8 лет", desc: "Специализируемся только на духовых шкафах и варочных панелях." },
+  { icon: "Wallet", title: "Цена — после диагностики", desc: "Называем точную цену до начала работ. Без доплат." },
 ];
 
-const guaranteeItems = [
-  { icon: "ShieldCheck", title: "До 2 лет на запчасти", desc: "Оригинальные комплектующие и сертифицированные аналоги. Гарантия на деталь — до 24 месяцев." },
-  { icon: "Clock", title: "До 1 года на работу", desc: "Гарантийный срок на выполненные работы — от 6 до 12 месяцев в зависимости от сложности." },
-  { icon: "FileCheck", title: "Письменный документ", desc: "По окончании ремонта выдаём гарантийный талон с печатью, датой и перечнем работ." },
-  { icon: "RefreshCw", title: "Бесплатный повторный выезд", desc: "Если в гарантийный период та же поломка — приедем и устраним бесплатно." },
-  { icon: "Package", title: "Только новые запчасти", desc: "Не используем б/у детали. Только новые, с документами от поставщика." },
-  { icon: "Tag", title: "Фиксированная цена", desc: "Цена озвучивается до ремонта и не меняется в процессе. Никаких доплат." },
+const steps = [
+  { n: "1", icon: "PhoneCall", title: "Звоните", desc: "Расскажите о поломке — дадим предварительную оценку" },
+  { n: "2", icon: "CalendarCheck", title: "Согласуем время", desc: "Выбираем удобный час, мастер приедет вовремя" },
+  { n: "3", icon: "ScanSearch", title: "Диагностика", desc: "Бесплатно выявляем причину и называем точную цену" },
+  { n: "4", icon: "Wrench", title: "Ремонт", desc: "Чиним при вас, используя только новые запчасти" },
+  { n: "5", icon: "FileCheck", title: "Гарантия", desc: "Выдаём гарантийный талон с датой и печатью" },
 ];
 
 const reviews = [
-  { name: "Елена М.", text: "Духовка Bosch перестала греть. Мастер приехал через 3 часа, нашёл сгоревший тэн, заменил за один визит. Всё чётко!", rating: 5 },
-  { name: "Игорь С.", text: "Варочная панель Siemens вышла из строя — сенсор не реагировал. Починили быстро, дали гарантию год. Уже 8 месяцев работает отлично.", rating: 5 },
-  { name: "Наталья В.", text: "Звонила вечером, договорились на утро. Мастер пришёл вовремя, всё объяснил. Осталась очень довольна, рекомендую!", rating: 5 },
+  { name: "Елена М.", date: "март 2025", stars: 5, text: "Духовка Bosch не грела уже неделю. Мастер приехал через 2 часа, нашёл сгоревший тэн, заменил прямо на месте. Работает как новая!" },
+  { name: "Игорь С.", date: "февраль 2025", stars: 5, text: "Варочная панель Siemens не реагировала на сенсор. Приехали на следующий день, починили за час. Дали гарантию год — всё отлично." },
+  { name: "Наталья В.", date: "январь 2025", stars: 5, text: "Очень довольна! Звонила вечером, договорились на утро. Мастер пунктуальный, всё объяснил, цена не изменилась. Рекомендую!" },
 ];
 
-function useInView(threshold = 0.1) {
+const guarantees = [
+  { icon: "ShieldCheck", title: "2 года на запчасти", desc: "Оригинальные детали с документами от поставщика" },
+  { icon: "Clock", title: "1 год на работу", desc: "Гарантийный срок на все выполненные работы" },
+  { icon: "RefreshCw", title: "Бесплатный повтор", desc: "Та же поломка в гарантийный период — приедем бесплатно" },
+  { icon: "FileText", title: "Письменный договор", desc: "Фиксируем всё: цену, работы, сроки и гарантию" },
+];
+
+/* ---- хук ---- */
+function useInView() {
   const ref = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
+  const [vis, setVis] = useState(false);
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect(); } },
-      { threshold }
-    );
+    const el = ref.current; if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect(); } }, { threshold: 0.08 });
     obs.observe(el);
     return () => obs.disconnect();
-  }, [threshold]);
-  return { ref, inView };
+  }, []);
+  return { ref, vis };
 }
 
-function SectionHead({ badge, title, sub }: { badge: string; title: string; sub?: string }) {
+/* ---- компоненты ---- */
+function Stars({ n = 5 }) {
   return (
-    <div className="mb-12">
-      <div className="badge mb-4">{badge}</div>
-      <h2 style={{ fontFamily: "'Golos Text'", fontWeight: 700, fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: "var(--text-primary)", lineHeight: 1.2 }}>
-        {title}
-      </h2>
-      {sub && <p style={{ marginTop: "0.75rem", color: "var(--text-secondary)", fontSize: "1rem", maxWidth: "520px", lineHeight: 1.65 }}>{sub}</p>}
+    <div style={{ display: "flex", gap: 2 }}>
+      {Array.from({ length: n }).map((_, i) => (
+        <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      ))}
     </div>
   );
 }
 
+function SectionTag({ text }: { text: string }) {
+  return <div className="badge-o" style={{ marginBottom: 16 }}>{text}</div>;
+}
+
+/* ---- главный компонент ---- */
 export default function Index() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    const fn = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  const whyRef = useInView();
   const srvRef = useInView();
-  const procRef = useInView();
-  const aboutRef = useInView();
+  const stepsRef = useInView();
   const guarRef = useInView();
   const revRef = useInView();
   const ctaRef = useInView();
 
-  return (
-    <div style={{ background: "#fff", fontFamily: "'Golos Text', sans-serif", color: "var(--text-primary)" }}>
+  const S: React.CSSProperties = { fontFamily: "'Inter', sans-serif" };
 
-      {/* ── NAV ── */}
-      <nav style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-        background: scrolled ? "rgba(255,255,255,0.95)" : "transparent",
-        backdropFilter: scrolled ? "blur(16px)" : "none",
-        borderBottom: scrolled ? "1px solid var(--border-color)" : "none",
-        transition: "all 0.35s ease",
+  return (
+    <div style={{ ...S, background: "#fff", color: "var(--text-dark)" }}>
+
+      {/* ======= NAVBAR ======= */}
+      <header style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+        background: scrolled ? "rgba(15,28,63,0.97)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        transition: "all 0.3s ease",
+        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "none",
       }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
-          <a href="#" style={{ fontWeight: 700, fontSize: "1.2rem", color: "var(--text-primary)", textDecoration: "none" }}>
-            Тех<span style={{ color: "var(--brand)" }}>Надежно</span>
+        <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 20px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          {/* лого */}
+          <a href="#" style={{ fontWeight: 800, fontSize: "1.15rem", color: "#fff", textDecoration: "none", letterSpacing: "-0.02em" }}>
+            ТЕХ<span style={{ color: "var(--brand)" }}>НАДЕЖНО</span>
           </a>
-          <div style={{ display: "flex", alignItems: "center", gap: 28 }} className="hidden md:flex">
-            {navLinks.map(l => (
-              <a key={l.href} href={l.href} className="nav-link">{l.label}</a>
+
+          {/* десктоп навигация */}
+          <nav className="hide-mob" style={{ display: "flex", gap: 28 }}>
+            {[["Услуги","#services"],["Почему мы","#why"],["Как работаем","#steps"],["Отзывы","#reviews"],["Контакты","#contacts"]].map(([l,h]) => (
+              <a key={h} href={h} style={{ color: "rgba(255,255,255,0.75)", fontSize: "0.9rem", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color="#fff")}
+                onMouseLeave={e => (e.currentTarget.style.color="rgba(255,255,255,0.75)")}
+              >{l}</a>
             ))}
-          </div>
-          <a href="tel:+79131916828" className="btn-primary hidden md:inline-flex" style={{ padding: "0.65rem 1.4rem", fontSize: "0.85rem" }}>
-            <Icon name="Phone" size={15} />
-            +7 (913) 191-68-28
+          </nav>
+
+          {/* кнопка звонка */}
+          <a href={PHONE_HREF} className="btn-cta hide-mob" style={{ padding: "0.6rem 1.4rem", fontSize: "0.88rem" }}>
+            <Icon name="Phone" size={15} /> {PHONE}
           </a>
-          <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)} style={{ background: "none", border: "none", cursor: "pointer" }}>
-            <Icon name={menuOpen ? "X" : "Menu"} size={24} style={{ color: "var(--text-primary)" }} />
+
+          {/* бургер */}
+          <button onClick={() => setMenu(!menu)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}
+            className="md:hidden">
+            <Icon name={menu ? "X" : "Menu"} size={26} style={{ color: "#fff" }} />
           </button>
         </div>
-        {menuOpen && (
-          <div style={{ background: "#fff", borderTop: "1px solid var(--border-color)", padding: "16px 24px 24px" }}>
-            {navLinks.map(l => (
-              <a key={l.href} href={l.href} className="nav-link" style={{ display: "block", padding: "12px 0", borderBottom: "1px solid var(--border-color)" }}
-                onClick={() => setMenuOpen(false)}>{l.label}</a>
+
+        {/* мобильное меню */}
+        {menu && (
+          <div style={{ background: "var(--navy)", borderTop: "1px solid rgba(255,255,255,0.1)", padding: "16px 20px 24px" }}>
+            {[["Услуги","#services"],["Почему мы","#why"],["Как работаем","#steps"],["Отзывы","#reviews"],["Контакты","#contacts"]].map(([l,h]) => (
+              <a key={h} href={h} onClick={() => setMenu(false)}
+                style={{ display: "block", padding: "13px 0", color: "rgba(255,255,255,0.8)", fontSize: "1rem", fontWeight: 500, textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.07)" }}
+              >{l}</a>
             ))}
-            <a href="tel:+79131916828" className="btn-primary" style={{ display: "flex", marginTop: 16, justifyContent: "center" }}>
-              <Icon name="Phone" size={15} /> +7 (913) 191-68-28
+            <a href={PHONE_HREF} className="btn-cta" style={{ width: "100%", marginTop: 18, fontSize: "1rem" }}>
+              <Icon name="Phone" size={17} /> {PHONE}
             </a>
           </div>
         )}
-      </nav>
+      </header>
 
-      {/* ── HERO ── */}
-      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", paddingTop: 68, background: "linear-gradient(135deg, #EFF6FF 0%, #fff 50%, #F0FDF4 100%)", position: "relative", overflow: "hidden" }}>
-        {/* декоративные круги */}
-        <div style={{ position: "absolute", top: "10%", right: "5%", width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: "10%", left: "0%", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
+      {/* ======= HERO ======= */}
+      <section style={{ position: "relative", background: "var(--navy)", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
+        {/* фоновое фото */}
+        <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${HERO_IMG})`, backgroundSize: "cover", backgroundPosition: "center", opacity: 0.18 }} />
+        {/* градиент */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(15,28,63,0.95) 40%, rgba(15,28,63,0.7) 100%)" }} />
 
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "60px 24px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center", width: "100%" }} className="grid-cols-1 md:grid-cols-2">
+        <div style={{ position: "relative", maxWidth: 1160, margin: "0 auto", padding: "120px 20px 80px", width: "100%" }}>
 
-          {/* левая колонка */}
-          <div>
-            <div className="badge anim-init anim d1" style={{ marginBottom: 20 }}>
-              <Icon name="MapPin" size={13} />
-              Красноярск и пригород
-            </div>
-            <h1 className="anim-init anim d2" style={{ fontWeight: 900, fontSize: "clamp(2.2rem, 5vw, 3.6rem)", lineHeight: 1.1, marginBottom: 20, color: "var(--text-primary)" }}>
-              Ремонт духовых шкафов<br />
-              <span style={{ color: "var(--brand)" }}>и варочных панелей</span>
-            </h1>
-            <p className="anim-init anim d3" style={{ fontSize: "1.05rem", color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: 32, maxWidth: 460 }}>
-              Профессиональный ремонт встроенной техники на дому. Выезд в день обращения. Диагностика бесплатно.
-            </p>
-
-            <div className="anim-init anim d4" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 40 }}>
-              <a href="tel:+79131916828" className="btn-primary">
-                <Icon name="Phone" size={17} />
-                +7 (913) 191-68-28
-              </a>
-              <a href="#services" className="btn-ghost">
-                Наши услуги
-                <Icon name="ChevronDown" size={17} />
-              </a>
-            </div>
-
-            <div className="anim-init anim d5" style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-              {[
-                { icon: "Clock", text: "Выезд в день обращения" },
-                { icon: "ShieldCheck", text: "Гарантия до 2 лет" },
-                { icon: "BadgeRussianRuble", text: "Диагностика 0 ₽" },
-              ].map(item => (
-                <div key={item.text} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.85rem", color: "var(--text-secondary)", fontWeight: 500 }}>
-                  <div style={{ width: 30, height: 30, borderRadius: 8, background: "var(--brand-light)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Icon name={item.icon} size={15} style={{ color: "var(--brand)" }} />
-                  </div>
-                  {item.text}
-                </div>
-              ))}
-            </div>
+          {/* лейбл */}
+          <div className="anim-init anim d1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,107,43,0.15)", border: "1px solid rgba(255,107,43,0.35)", borderRadius: 999, padding: "0.4rem 1rem", marginBottom: 28 }}>
+            <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#4ADE80", display: "inline-block", boxShadow: "0 0 0 3px rgba(74,222,128,0.3)" }} />
+            <span style={{ color: "rgba(255,255,255,0.9)", fontSize: "0.82rem", fontWeight: 600 }}>Красноярск • Выезд сегодня</span>
           </div>
 
-          {/* правая колонка — фото + карточки */}
-          <div className="anim-init anim d3 hidden md:block" style={{ position: "relative" }}>
-            <div style={{ borderRadius: 24, overflow: "hidden", boxShadow: "0 32px 80px rgba(37,99,235,0.12)" }}>
-              <img src={HERO_IMG} alt="Ремонт техники" style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
-            </div>
-            {/* поп-ап статистики */}
-            <div style={{ position: "absolute", bottom: -20, left: -20, background: "#fff", borderRadius: 16, padding: "16px 20px", boxShadow: "0 16px 48px rgba(0,0,0,0.12)", display: "flex", gap: 20, border: "1px solid var(--border-color)" }}>
-              {[
-                { n: "4000+", l: "ремонтов" },
-                { n: "8 лет", l: "опыта" },
-                { n: "97%", l: "с 1 визита" },
-              ].map(s => (
-                <div key={s.n} style={{ textAlign: "center" }}>
-                  <div style={{ fontWeight: 700, fontSize: "1.3rem", color: "var(--brand)" }}>{s.n}</div>
-                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: 2 }}>{s.l}</div>
+          {/* заголовок */}
+          <h1 className="anim-init anim d2" style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)", fontWeight: 900, color: "#fff", lineHeight: 1.08, marginBottom: 20, maxWidth: 720, letterSpacing: "-0.03em" }}>
+            Ремонт духовых шкафов<br />
+            <span style={{ color: "var(--brand)" }}>и варочных панелей</span>
+          </h1>
+
+          {/* подзаголовок */}
+          <p className="anim-init anim d3" style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.65)", lineHeight: 1.65, marginBottom: 40, maxWidth: 540 }}>
+            Профессиональный ремонт на дому в Красноярске.<br />
+            Диагностика <strong style={{ color: "#fff" }}>бесплатно</strong>. Гарантия до <strong style={{ color: "#fff" }}>2 лет</strong>.
+          </p>
+
+          {/* кнопки */}
+          <div className="anim-init anim d4" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 56 }}>
+            <a href={PHONE_HREF} className="btn-cta" style={{ fontSize: "1.05rem", padding: "1.1rem 2.2rem" }}>
+              <Icon name="Phone" size={19} /> Вызвать мастера
+            </a>
+            <a href={WA_HREF} className="btn-white" target="_blank" rel="noreferrer">
+              <Icon name="MessageCircle" size={18} /> WhatsApp
+            </a>
+          </div>
+
+          {/* плашки доверия */}
+          <div className="anim-init anim d5" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            {[
+              { icon: "Clock", text: "Выезд в день звонка" },
+              { icon: "ShieldCheck", text: "Гарантия до 2 лет" },
+              { icon: "Banknote", text: "Диагностика 0 ₽" },
+              { icon: "Star", text: "8 лет на рынке" },
+            ].map(p => (
+              <div key={p.text} style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 10, padding: "9px 16px" }}>
+                <Icon name={p.icon} size={15} style={{ color: "var(--brand)" }} />
+                <span style={{ color: "rgba(255,255,255,0.85)", fontSize: "0.85rem", fontWeight: 500 }}>{p.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* волна-переход */}
+        <div style={{ position: "absolute", bottom: -1, left: 0, right: 0, lineHeight: 0 }}>
+          <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style={{ width: "100%", height: 60, display: "block" }}>
+            <path d="M0,60 C360,0 1080,0 1440,60 L1440,60 L0,60 Z" fill="#fff" />
+          </svg>
+        </div>
+      </section>
+
+      {/* ======= ПОЧЕМУ МЫ ======= */}
+      <section id="why" style={{ padding: "90px 20px", background: "#fff" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+          <div ref={whyRef.ref} style={{ textAlign: "center", marginBottom: 56 }}>
+            <SectionTag text="Почему выбирают нас" />
+            <h2 style={{ fontSize: "clamp(1.7rem, 3.5vw, 2.6rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 12 }}>
+              6 причин доверить нам ремонт
+            </h2>
+            <p style={{ color: "var(--text-mid)", fontSize: "1.05rem", maxWidth: 480, margin: "0 auto" }}>
+              Мы специализируемся только на кухонной технике — и делаем это лучше всех
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 18 }}>
+            {whyItems.map((w, i) => (
+              <div key={w.title} className="feat-card" style={{
+                opacity: whyRef.vis ? 1 : 0,
+                transform: whyRef.vis ? "none" : "translateY(20px)",
+                transition: `all 0.55s ease ${i * 0.08}s`,
+              }}>
+                <div style={{ width: 50, height: 50, borderRadius: 14, background: "var(--brand-light)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}>
+                  <Icon name={w.icon} size={22} style={{ color: "var(--brand)" }} />
                 </div>
-              ))}
-            </div>
+                <h3 style={{ fontWeight: 700, fontSize: "1.05rem", marginBottom: 8 }}>{w.title}</h3>
+                <p style={{ color: "var(--text-mid)", fontSize: "0.9rem", lineHeight: 1.6 }}>{w.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── SERVICES ── */}
-      <section id="services" style={{ padding: "100px 24px", background: "var(--surface)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div ref={srvRef.ref}>
-            <SectionHead badge="Что ремонтируем" title="Услуги" sub="Специализируемся только на встроенной кухонной технике — знаем её досконально" />
+      {/* ======= УСЛУГИ ======= */}
+      <section id="services" style={{ padding: "90px 20px", background: "var(--gray-bg)" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+          <div ref={srvRef.ref} style={{ textAlign: "center", marginBottom: 56 }}>
+            <SectionTag text="Что ремонтируем" />
+            <h2 style={{ fontSize: "clamp(1.7rem, 3.5vw, 2.6rem)", fontWeight: 800, letterSpacing: "-0.03em" }}>
+              Наши услуги
+            </h2>
           </div>
+
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
             {services.map((s, i) => (
-              <div key={s.title} className="card" style={{
-                padding: 28,
-                opacity: srvRef.inView ? 1 : 0,
-                transform: srvRef.inView ? "none" : "translateY(20px)",
-                transition: `all 0.55s ease ${i * 0.1}s`,
+              <div key={s.title} className="feat-card" style={{
+                opacity: srvRef.vis ? 1 : 0,
+                transform: srvRef.vis ? "none" : "translateY(24px)",
+                transition: `all 0.55s ease ${i * 0.12}s`,
+                display: "flex", flexDirection: "column",
               }}>
-                <div style={{ width: 52, height: 52, borderRadius: 14, background: s.bg, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}>
-                  <Icon name={s.icon} size={24} style={{ color: s.color }} />
+                <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+                  <div style={{ width: 52, height: 52, borderRadius: 14, background: s.bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Icon name={s.icon} size={24} style={{ color: s.color }} />
+                  </div>
+                  <div>
+                    <h3 style={{ fontWeight: 800, fontSize: "1.15rem", marginBottom: 3 }}>{s.title}</h3>
+                    <p style={{ fontSize: "0.75rem", color: "var(--text-light)", fontWeight: 500 }}>{s.brands}</p>
+                  </div>
                 </div>
-                <h3 style={{ fontWeight: 700, fontSize: "1.25rem", marginBottom: 6, color: "var(--text-primary)" }}>{s.title}</h3>
-                <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginBottom: 18, fontWeight: 500 }}>{s.brands}</p>
-                <div style={{ height: 1, background: "var(--border-color)", marginBottom: 18 }} />
+                <div style={{ height: 1, background: "var(--border-c)", marginBottom: 18 }} />
                 <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                  {s.issues.map(issue => (
-                    <li key={issue} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: "0.88rem", color: "var(--text-secondary)" }}>
-                      <div style={{ marginTop: 3, width: 6, height: 6, borderRadius: "50%", background: s.color, flexShrink: 0 }} />
-                      {issue}
+                  {s.list.map(item => (
+                    <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: "0.9rem", color: "var(--text-mid)" }}>
+                      <Icon name="Check" size={16} style={{ color: s.color, marginTop: 2, flexShrink: 0 }} />
+                      {item}
                     </li>
                   ))}
                 </ul>
-                <a href="tel:+79131916828" className="btn-primary" style={{ display: "flex", justifyContent: "center", marginTop: 24 }}>
-                  +7 (913) 191-68-28
+                <a href={PHONE_HREF} className="btn-cta" style={{ marginTop: 24, width: "100%" }}>
+                  <Icon name="Phone" size={16} /> Вызвать мастера
                 </a>
               </div>
             ))}
@@ -275,155 +283,154 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ── PROCESS ── */}
-      <section id="process" style={{ padding: "100px 24px", background: "#fff" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div ref={procRef.ref}>
-            <SectionHead badge="Просто и понятно" title="Как мы работаем" sub="От звонка до гарантийного талона — всё прозрачно и без сюрпризов" />
+      {/* ======= КАК РАБОТАЕМ ======= */}
+      <section id="steps" style={{ padding: "90px 20px", background: "#fff" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+          <div ref={stepsRef.ref} style={{ textAlign: "center", marginBottom: 56 }}>
+            <SectionTag text="Простой процесс" />
+            <h2 style={{ fontSize: "clamp(1.7rem, 3.5vw, 2.6rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 12 }}>
+              Как мы работаем
+            </h2>
+            <p style={{ color: "var(--text-mid)", fontSize: "1.05rem", maxWidth: 440, margin: "0 auto" }}>
+              От звонка до готового ремонта — всё прозрачно
+            </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
-            {process.map((p, i) => (
-              <div key={p.num} style={{
-                padding: "28px 24px",
-                background: "var(--surface)",
-                borderRadius: 20,
-                border: "1px solid var(--border-color)",
-                opacity: procRef.inView ? 1 : 0,
-                transform: procRef.inView ? "none" : "translateY(18px)",
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 16 }}>
+            {steps.map((s, i) => (
+              <div key={s.n} style={{
+                background: "var(--gray-bg)", borderRadius: 20, padding: "28px 22px",
+                opacity: stepsRef.vis ? 1 : 0,
+                transform: stepsRef.vis ? "none" : "translateY(20px)",
                 transition: `all 0.55s ease ${i * 0.1}s`,
+                position: "relative", overflow: "hidden",
               }}>
-                <div style={{ fontWeight: 900, fontSize: "2.5rem", lineHeight: 1, marginBottom: 16, color: "transparent", WebkitTextStroke: "2px var(--brand-border)" }}>{p.num}</div>
-                <div className="icon-box" style={{ marginBottom: 14, borderRadius: 12 }}>
-                  <Icon name={p.icon} size={20} />
+                <div style={{ position: "absolute", top: 12, right: 16, fontSize: "3.5rem", fontWeight: 900, color: "rgba(255,107,43,0.07)", lineHeight: 1 }}>{s.n}</div>
+                <div style={{ width: 46, height: 46, borderRadius: 12, background: "#fff", border: "1px solid var(--border-c)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
+                  <Icon name={s.icon} size={20} style={{ color: "var(--brand)" }} />
                 </div>
-                <h4 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: 8, color: "var(--text-primary)" }}>{p.title}</h4>
-                <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", lineHeight: 1.6 }}>{p.desc}</p>
+                <h4 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: 8 }}>{s.title}</h4>
+                <p style={{ fontSize: "0.85rem", color: "var(--text-mid)", lineHeight: 1.6 }}>{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── ABOUT ── */}
-      <section id="about" style={{ padding: "100px 24px", background: "var(--surface)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }} className="grid-cols-1 md:grid-cols-2">
-
-          <div style={{ borderRadius: 24, overflow: "hidden", position: "relative", opacity: aboutRef.inView ? 1 : 0, transform: aboutRef.inView ? "none" : "translateX(-24px)", transition: "all 0.8s ease 0.1s" }} ref={aboutRef.ref}>
-            <img src={TECH_IMG} alt="Техника" style={{ width: "100%", display: "block", aspectRatio: "4/3", objectFit: "cover" }} />
-            <div style={{ position: "absolute", bottom: 20, right: 20, background: "#fff", borderRadius: 14, padding: "14px 18px", boxShadow: "0 8px 32px rgba(0,0,0,0.1)" }}>
-              <div style={{ fontWeight: 700, fontSize: "1.5rem", color: "var(--brand)" }}>0 ₽</div>
-              <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: 2 }}>диагностика на дому</div>
-            </div>
-          </div>
-
-          <div style={{ opacity: aboutRef.inView ? 1 : 0, transform: aboutRef.inView ? "none" : "translateX(24px)", transition: "all 0.8s ease 0.2s" }}>
-            <SectionHead badge="О компании" title={"ТехНадежно —\nремонт с гарантией"} sub="Работаем в Красноярске с 2016 года. Специализируемся только на встроенной кухонной технике — никакой «всё подряд»." />
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 32 }}>
-              {[
-                { n: "8 лет", l: "работаем в Красноярске" },
-                { n: "50+", l: "брендов обслуживаем" },
-                { n: "97%", l: "ремонт за один визит" },
-                { n: "4000+", l: "довольных клиентов" },
-              ].map(s => (
-                <div key={s.n} style={{ background: "#fff", borderRadius: 16, padding: "18px 20px", border: "1px solid var(--border-color)" }}>
-                  <div style={{ fontWeight: 700, fontSize: "1.5rem", color: "var(--brand)" }}>{s.n}</div>
-                  <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: 4 }}>{s.l}</div>
+      {/* ======= О НАС + ФОТО ======= */}
+      <section style={{ padding: "90px 20px", background: "var(--gray-bg)" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }} className="grid-cols-1 md:grid-cols-2">
+          <div style={{ borderRadius: 24, overflow: "hidden", position: "relative", boxShadow: "0 32px 80px rgba(0,0,0,0.12)" }}>
+            <img src={TECH_IMG} alt="Мастер за работой" style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
+            <div style={{ position: "absolute", bottom: 20, left: 20, right: 20, display: "flex", gap: 12 }}>
+              {[{ n: "4000+", l: "ремонтов" }, { n: "97%", l: "с 1 визита" }, { n: "8 лет", l: "опыта" }].map(s => (
+                <div key={s.n} style={{ flex: 1, background: "rgba(255,255,255,0.95)", backdropFilter: "blur(8px)", borderRadius: 12, padding: "12px 10px", textAlign: "center" }}>
+                  <div style={{ fontWeight: 800, fontSize: "1.25rem", color: "var(--brand)" }}>{s.n}</div>
+                  <div style={{ fontSize: "0.72rem", color: "var(--text-mid)", fontWeight: 500 }}>{s.l}</div>
                 </div>
               ))}
             </div>
-            <a href="tel:+79131916828" className="btn-primary">
-              <Icon name="Phone" size={17} />
-              +7 (913) 191-68-28
+          </div>
+
+          <div>
+            <SectionTag text="О компании" />
+            <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 16, lineHeight: 1.2 }}>
+              ТехНадежно — ремонт, которому доверяют
+            </h2>
+            <p style={{ color: "var(--text-mid)", fontSize: "1rem", lineHeight: 1.75, marginBottom: 12 }}>
+              С 2016 года специализируемся исключительно на ремонте встроенных духовых шкафов и варочных панелей. Никакой «всё подряд» — только то, что умеем лучше всех.
+            </p>
+            <p style={{ color: "var(--text-mid)", fontSize: "1rem", lineHeight: 1.75, marginBottom: 32 }}>
+              Мастера с опытом от 5 лет. Запчасти всегда в наличии — большинство поломок устраняем прямо на месте за один визит.
+            </p>
+            <a href={PHONE_HREF} className="btn-cta">
+              <Icon name="Phone" size={18} /> {PHONE}
             </a>
           </div>
         </div>
       </section>
 
-      {/* ── GUARANTEE ── */}
-      <section id="guarantee" style={{ padding: "100px 24px", background: "#fff" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div ref={guarRef.ref}>
-            <SectionHead badge="Наши обязательства" title="Гарантия на ремонт" sub="Даём письменную гарантию на каждый ремонт — без мелкого шрифта и скрытых условий" />
+      {/* ======= ГАРАНТИЯ ======= */}
+      <section id="guarantee" style={{ padding: "90px 20px", background: "var(--navy)" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+          <div ref={guarRef.ref} style={{ textAlign: "center", marginBottom: 56 }}>
+            <div className="badge-o" style={{ marginBottom: 16, background: "rgba(255,107,43,0.15)", border: "1px solid rgba(255,107,43,0.3)" }}>Наши обязательства</div>
+            <h2 style={{ fontSize: "clamp(1.7rem, 3.5vw, 2.6rem)", fontWeight: 800, letterSpacing: "-0.03em", color: "#fff", marginBottom: 12 }}>
+              Гарантия на каждый ремонт
+            </h2>
+            <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "1.05rem", maxWidth: 440, margin: "0 auto" }}>
+              Даём письменный гарантийный талон — без мелкого шрифта
+            </p>
           </div>
 
-          {/* большой баннер */}
-          <div style={{ background: "linear-gradient(135deg, var(--brand) 0%, #1D4ED8 100%)", borderRadius: 24, padding: "40px 48px", marginBottom: 24, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32, flexWrap: "wrap" }}>
-            <div>
-              <h3 style={{ color: "#fff", fontWeight: 700, fontSize: "1.6rem", marginBottom: 10 }}>Письменная гарантия на каждый ремонт</h3>
-              <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "0.95rem", maxWidth: 480, lineHeight: 1.65 }}>
-                Гарантийный талон с подписью мастера вручаем при сдаче работы. В нём — дата, перечень работ, запчасти и срок гарантии.
-              </p>
-            </div>
-            <div style={{ textAlign: "center", flexShrink: 0 }}>
-              <div style={{ fontWeight: 900, fontSize: "5rem", lineHeight: 1, color: "#fff" }}>2</div>
-              <div style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.85rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>года на запчасти</div>
-            </div>
-          </div>
-
-          {/* карточки гарантий */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
-            {guaranteeItems.map((g, i) => (
-              <div key={g.title} className="card" style={{
-                padding: "22px 24px", display: "flex", gap: 16, alignItems: "flex-start",
-                opacity: guarRef.inView ? 1 : 0,
-                transform: guarRef.inView ? "none" : "translateY(18px)",
-                transition: `all 0.55s ease ${i * 0.08}s`,
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, marginBottom: 32 }}>
+            {guarantees.map((g, i) => (
+              <div key={g.title} style={{
+                background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 20, padding: "28px 24px",
+                opacity: guarRef.vis ? 1 : 0,
+                transform: guarRef.vis ? "none" : "translateY(20px)",
+                transition: `all 0.55s ease ${i * 0.1}s`,
               }}>
-                <div className="icon-box">
-                  <Icon name={g.icon} size={20} />
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,107,43,0.15)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
+                  <Icon name={g.icon} size={22} style={{ color: "var(--brand)" }} />
                 </div>
-                <div>
-                  <h4 style={{ fontWeight: 700, fontSize: "0.95rem", marginBottom: 6, color: "var(--text-primary)" }}>{g.title}</h4>
-                  <p style={{ fontSize: "0.83rem", color: "var(--text-secondary)", lineHeight: 1.6 }}>{g.desc}</p>
-                </div>
+                <h4 style={{ fontWeight: 700, fontSize: "1.05rem", color: "#fff", marginBottom: 8 }}>{g.title}</h4>
+                <p style={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>{g.desc}</p>
               </div>
             ))}
           </div>
 
-          {/* таблица сроков */}
-          <div style={{ marginTop: 20, background: "var(--surface)", borderRadius: 20, padding: "28px 32px", border: "1px solid var(--border-color)", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
+          {/* сроки */}
+          <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 20, padding: "28px 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 20 }}>
             {[
-              { w: "Замена тэна / термостата", t: "1 год" },
-              { w: "Ремонт сенсорного модуля", t: "6 мес." },
-              { w: "Нагревательные элементы", t: "2 года" },
-              { w: "Работа мастера", t: "6 мес." },
+              { t: "2 года", w: "Нагревательные элементы" },
+              { t: "1 год", w: "Замена тэна / термостата" },
+              { t: "6 мес.", w: "Ремонт платы / сенсора" },
+              { t: "6 мес.", w: "Работа мастера" },
             ].map(item => (
               <div key={item.w} style={{ borderLeft: "3px solid var(--brand)", paddingLeft: 16 }}>
-                <div style={{ fontWeight: 700, fontSize: "1.2rem", color: "var(--brand)" }}>{item.t}</div>
-                <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: 4 }}>{item.w}</div>
+                <div style={{ fontWeight: 800, fontSize: "1.4rem", color: "var(--brand)" }}>{item.t}</div>
+                <div style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.45)", marginTop: 4 }}>{item.w}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── REVIEWS ── */}
-      <section id="reviews" style={{ padding: "100px 24px", background: "var(--surface)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div ref={revRef.ref}>
-            <SectionHead badge="Отзывы клиентов" title="Нам доверяют в Красноярске" />
+      {/* ======= ОТЗЫВЫ ======= */}
+      <section id="reviews" style={{ padding: "90px 20px", background: "#fff" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+          <div ref={revRef.ref} style={{ textAlign: "center", marginBottom: 56 }}>
+            <SectionTag text="Отзывы клиентов" />
+            <h2 style={{ fontSize: "clamp(1.7rem, 3.5vw, 2.6rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 12 }}>
+              Нам доверяют в Красноярске
+            </h2>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+              <Stars />
+              <span style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-mid)" }}>5.0 · более 200 отзывов</span>
+            </div>
           </div>
+
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
             {reviews.map((r, i) => (
-              <div key={r.name} className="card" style={{
-                padding: 28,
-                opacity: revRef.inView ? 1 : 0,
-                transform: revRef.inView ? "none" : "translateY(18px)",
+              <div key={r.name} className="feat-card" style={{
+                opacity: revRef.vis ? 1 : 0,
+                transform: revRef.vis ? "none" : "translateY(20px)",
                 transition: `all 0.6s ease ${i * 0.12}s`,
               }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
-                  {Array.from({ length: r.rating }).map((_, k) => (
-                    <Icon key={k} name="Star" size={16} style={{ color: "#F59E0B", fill: "#F59E0B" }} />
-                  ))}
-                </div>
-                <p style={{ fontSize: "0.95rem", color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: 20 }}>
+                <Stars n={r.stars} />
+                <p style={{ fontSize: "0.97rem", color: "var(--text-mid)", lineHeight: 1.75, margin: "16px 0 20px" }}>
                   «{r.text}»
                 </p>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 16, borderTop: "1px solid var(--border-color)" }}>
-                  <div style={{ width: 38, height: 38, borderRadius: "50%", background: "var(--brand-light)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: "var(--brand)", fontSize: "0.9rem" }}>
+                <div style={{ paddingTop: 16, borderTop: "1px solid var(--border-c)", display: "flex", alignItems: "center", gap: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--brand-light)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, color: "var(--brand)", fontSize: "0.95rem", flexShrink: 0 }}>
                     {r.name[0]}
                   </div>
-                  <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-primary)" }}>{r.name}</div>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: "0.9rem" }}>{r.name}</div>
+                    <div style={{ fontSize: "0.78rem", color: "var(--text-light)" }}>{r.date}</div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -431,60 +438,98 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ── CONTACTS ── */}
-      <section id="contacts" style={{ padding: "100px 24px", background: "#fff" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div ref={ctaRef.ref} style={{ opacity: ctaRef.inView ? 1 : 0, transform: ctaRef.inView ? "none" : "translateY(20px)", transition: "all 0.7s ease" }}>
-            <SectionHead badge="Связаться с нами" title="Контакты" sub="Работаем по всему Красноярску. Выезд в день обращения, ежедневно 8:00–22:00." />
+      {/* ======= CTA-БАННЕР ======= */}
+      <section style={{ padding: "0 20px 90px", background: "#fff" }}>
+        <div ref={ctaRef.ref} style={{ maxWidth: 1160, margin: "0 auto" }}>
+          <div style={{
+            background: "linear-gradient(135deg, var(--navy) 0%, #1a2d5a 100%)",
+            borderRadius: 28, padding: "clamp(32px,5vw,60px) clamp(24px,5vw,64px)",
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            gap: 32, flexWrap: "wrap",
+            opacity: ctaRef.vis ? 1 : 0,
+            transform: ctaRef.vis ? "none" : "translateY(20px)",
+            transition: "all 0.7s ease",
+          }}>
+            <div>
+              <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2.3rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", marginBottom: 10 }}>
+                Техника сломалась? <span style={{ color: "var(--brand)" }}>Звоните сейчас!</span>
+              </h2>
+              <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "1rem", maxWidth: 420 }}>
+                Мастер приедет в день обращения. Диагностика бесплатно.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <a href={PHONE_HREF} className="btn-cta" style={{ fontSize: "1.05rem", padding: "1.1rem 2rem" }}>
+                <Icon name="Phone" size={18} /> {PHONE}
+              </a>
+              <a href={WA_HREF} className="btn-white" target="_blank" rel="noreferrer">
+                <Icon name="MessageCircle" size={17} /> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======= КОНТАКТЫ ======= */}
+      <section id="contacts" style={{ padding: "90px 20px", background: "var(--gray-bg)" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <SectionTag text="Контакты" />
+            <h2 style={{ fontSize: "clamp(1.7rem, 3.5vw, 2.6rem)", fontWeight: 800, letterSpacing: "-0.03em" }}>
+              Как с нами связаться
+            </h2>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16, marginBottom: 32 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
             {[
-              { icon: "Phone", label: "Телефон", val: "+7 (913) 191-68-28", href: "tel:+79131916828" },
-              { icon: "MessageCircle", label: "WhatsApp / Telegram", val: "+7 (913) 191-68-28", href: "https://wa.me/79131916828" },
-              { icon: "MapPin", label: "Город", val: "Красноярск и Красноярский край", href: undefined },
-              { icon: "Clock", label: "Режим работы", val: "Ежедневно 8:00 — 22:00", href: undefined },
+              { icon: "Phone", label: "Телефон", val: PHONE, href: PHONE_HREF },
+              { icon: "MessageCircle", label: "WhatsApp", val: PHONE, href: WA_HREF },
+              { icon: "MapPin", label: "Район работы", val: "Весь Красноярск", href: undefined },
+              { icon: "Clock", label: "Режим работы", val: "Ежедневно 8:00 – 22:00", href: undefined },
             ].map(c => (
-              <div key={c.label} className="card" style={{ padding: "20px 24px", display: "flex", alignItems: "center", gap: 16 }}>
-                <div className="icon-box">
-                  <Icon name={c.icon} size={20} />
+              <div key={c.label} className="feat-card" style={{ display: "flex", gap: 14, alignItems: "center" }}>
+                <div style={{ width: 48, height: 48, borderRadius: 14, background: "var(--brand-light)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Icon name={c.icon} size={22} style={{ color: "var(--brand)" }} />
                 </div>
                 <div>
-                  <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{c.label}</div>
+                  <div style={{ fontSize: "0.72rem", fontWeight: 700, color: "var(--text-light)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{c.label}</div>
                   {c.href
-                    ? <a href={c.href} style={{ fontWeight: 700, fontSize: "1rem", color: "var(--brand)", textDecoration: "none" }}>{c.val}</a>
-                    : <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-primary)" }}>{c.val}</div>
+                    ? <a href={c.href} style={{ fontWeight: 700, fontSize: "1rem", color: "var(--brand)", textDecoration: "none" }} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">{c.val}</a>
+                    : <div style={{ fontWeight: 600, fontSize: "0.95rem" }}>{c.val}</div>
                   }
                 </div>
               </div>
             ))}
           </div>
-
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <a href="tel:+79131916828" className="btn-primary">
-              <Icon name="Phone" size={18} />
-              Позвонить: +7 (913) 191-68-28
-            </a>
-            <a href="https://wa.me/79131916828" className="btn-ghost" target="_blank" rel="noreferrer">
-              <Icon name="MessageCircle" size={18} />
-              Написать в WhatsApp
-            </a>
-          </div>
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer style={{ background: "var(--text-primary)", padding: "40px 24px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-          <span style={{ fontWeight: 700, fontSize: "1.1rem", color: "#fff" }}>
-            Тех<span style={{ color: "#60A5FA" }}>Надежно</span>
+      {/* ======= FOOTER ======= */}
+      <footer style={{ background: "var(--navy)", padding: "32px 20px" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+          <span style={{ fontWeight: 800, fontSize: "1.1rem", color: "#fff", letterSpacing: "-0.02em" }}>
+            ТЕХ<span style={{ color: "var(--brand)" }}>НАДЕЖНО</span>
           </span>
-          <span style={{ color: "#64748B", fontSize: "0.85rem" }}>© 2025 ТехНадежно · Красноярск</span>
-          <a href="tel:+79131916828" style={{ color: "#60A5FA", fontWeight: 700, fontSize: "0.95rem", textDecoration: "none" }}>
-            +7 (913) 191-68-28
-          </a>
+          <span style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.82rem" }}>© 2025 ТехНадежно · Красноярск</span>
+          <a href={PHONE_HREF} style={{ color: "var(--brand)", fontWeight: 700, fontSize: "0.95rem", textDecoration: "none" }}>{PHONE}</a>
         </div>
       </footer>
+
+      {/* ======= ПЛАВАЮЩАЯ КНОПКА ======= */}
+      <a href={PHONE_HREF} style={{
+        position: "fixed", bottom: 24, right: 24, zIndex: 200,
+        width: 58, height: 58, borderRadius: "50%",
+        background: "var(--brand)", color: "#fff",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        boxShadow: "0 8px 28px rgba(255,107,43,0.5)",
+        transition: "transform 0.2s",
+        textDecoration: "none",
+      }}
+        onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.1)")}
+        onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
+      >
+        <Icon name="Phone" size={24} />
+      </a>
     </div>
   );
 }
