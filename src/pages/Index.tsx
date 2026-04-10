@@ -146,9 +146,9 @@ export default function Index() {
               <a key={l.href} href={l.href} className="nav-link">{l.label}</a>
             ))}
           </div>
-          <a href="tel:+73912000000" className="btn-primary hidden md:inline-flex" style={{ padding: "0.65rem 1.4rem", fontSize: "0.85rem" }}>
+          <a href="tel:+79131916828" className="btn-primary hidden md:inline-flex" style={{ padding: "0.65rem 1.4rem", fontSize: "0.85rem" }}>
             <Icon name="Phone" size={15} />
-            Вызвать мастера
+            +7 (913) 191-68-28
           </a>
           <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)} style={{ background: "none", border: "none", cursor: "pointer" }}>
             <Icon name={menuOpen ? "X" : "Menu"} size={24} style={{ color: "var(--text-primary)" }} />
@@ -160,8 +160,8 @@ export default function Index() {
               <a key={l.href} href={l.href} className="nav-link" style={{ display: "block", padding: "12px 0", borderBottom: "1px solid var(--border-color)" }}
                 onClick={() => setMenuOpen(false)}>{l.label}</a>
             ))}
-            <a href="tel:+73912000000" className="btn-primary" style={{ display: "flex", marginTop: 16, justifyContent: "center" }}>
-              <Icon name="Phone" size={15} /> Вызвать мастера
+            <a href="tel:+79131916828" className="btn-primary" style={{ display: "flex", marginTop: 16, justifyContent: "center" }}>
+              <Icon name="Phone" size={15} /> +7 (913) 191-68-28
             </a>
           </div>
         )}
@@ -190,9 +190,9 @@ export default function Index() {
             </p>
 
             <div className="anim-init anim d4" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 40 }}>
-              <a href="tel:+73912000000" className="btn-primary">
+              <a href="tel:+79131916828" className="btn-primary">
                 <Icon name="Phone" size={17} />
-                +7 (391) 200-00-00
+                +7 (913) 191-68-28
               </a>
               <a href="#services" className="btn-ghost">
                 Наши услуги
@@ -266,8 +266,8 @@ export default function Index() {
                     </li>
                   ))}
                 </ul>
-                <a href="tel:+73912000000" className="btn-primary" style={{ display: "flex", justifyContent: "center", marginTop: 24 }}>
-                  Вызвать мастера
+                <a href="tel:+79131916828" className="btn-primary" style={{ display: "flex", justifyContent: "center", marginTop: 24 }}>
+                  +7 (913) 191-68-28
                 </a>
               </div>
             ))}
@@ -331,9 +331,9 @@ export default function Index() {
                 </div>
               ))}
             </div>
-            <a href="tel:+73912000000" className="btn-primary">
+            <a href="tel:+79131916828" className="btn-primary">
               <Icon name="Phone" size={17} />
-              Позвонить сейчас
+              +7 (913) 191-68-28
             </a>
           </div>
         </div>
@@ -433,55 +433,42 @@ export default function Index() {
 
       {/* ── CONTACTS ── */}
       <section id="contacts" style={{ padding: "100px 24px", background: "#fff" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "start" }} className="grid-cols-1 md:grid-cols-2">
-
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div ref={ctaRef.ref} style={{ opacity: ctaRef.inView ? 1 : 0, transform: ctaRef.inView ? "none" : "translateY(20px)", transition: "all 0.7s ease" }}>
-            <SectionHead badge="Связаться с нами" title="Оставить заявку" sub="Перезвоним в течение 15 минут. Выезд в тот же день." />
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {[
-                { icon: "Phone", label: "Телефон", val: "+7 (391) 200-00-00" },
-                { icon: "MessageCircle", label: "WhatsApp / Telegram", val: "+7 (391) 200-00-00" },
-                { icon: "MapPin", label: "Город", val: "Красноярск и Красноярский край" },
-                { icon: "Clock", label: "Режим работы", val: "Ежедневно 8:00 — 22:00" },
-              ].map(c => (
-                <div key={c.label} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", background: "var(--surface)", borderRadius: 14, border: "1px solid var(--border-color)" }}>
-                  <div className="icon-box" style={{ width: 40, height: 40, borderRadius: 10 }}>
-                    <Icon name={c.icon} size={18} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 2 }}>{c.label}</div>
-                    <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-primary)" }}>{c.val}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <SectionHead badge="Связаться с нами" title="Контакты" sub="Работаем по всему Красноярску. Выезд в день обращения, ежедневно 8:00–22:00." />
           </div>
 
-          <div style={{ background: "var(--surface)", borderRadius: 24, padding: "36px 32px", border: "1px solid var(--border-color)", opacity: ctaRef.inView ? 1 : 0, transform: ctaRef.inView ? "none" : "translateY(20px)", transition: "all 0.7s ease 0.2s" }}>
-            <h3 style={{ fontWeight: 700, fontSize: "1.4rem", marginBottom: 6, color: "var(--text-primary)" }}>Оставить заявку</h3>
-            <p style={{ color: "var(--text-muted)", fontSize: "0.88rem", marginBottom: 24 }}>Перезвоним в течение 15 минут</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {[
-                { ph: "Ваше имя", type: "text" },
-                { ph: "Номер телефона", type: "tel" },
-                { ph: "Марка и модель техники", type: "text" },
-              ].map(({ ph, type }) => (
-                <input key={ph} type={type} placeholder={ph} className="input-modern" />
-              ))}
-              <textarea
-                rows={3}
-                placeholder="Опишите неисправность"
-                className="input-modern"
-                style={{ resize: "none" }}
-              />
-              <button className="btn-primary" style={{ justifyContent: "center", padding: "0.95rem" }}>
-                <Icon name="Send" size={17} />
-                Отправить заявку
-              </button>
-              <p style={{ textAlign: "center", fontSize: "0.75rem", color: "var(--text-muted)" }}>
-                Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
-              </p>
-            </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16, marginBottom: 32 }}>
+            {[
+              { icon: "Phone", label: "Телефон", val: "+7 (913) 191-68-28", href: "tel:+79131916828" },
+              { icon: "MessageCircle", label: "WhatsApp / Telegram", val: "+7 (913) 191-68-28", href: "https://wa.me/79131916828" },
+              { icon: "MapPin", label: "Город", val: "Красноярск и Красноярский край", href: undefined },
+              { icon: "Clock", label: "Режим работы", val: "Ежедневно 8:00 — 22:00", href: undefined },
+            ].map(c => (
+              <div key={c.label} className="card" style={{ padding: "20px 24px", display: "flex", alignItems: "center", gap: 16 }}>
+                <div className="icon-box">
+                  <Icon name={c.icon} size={20} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{c.label}</div>
+                  {c.href
+                    ? <a href={c.href} style={{ fontWeight: 700, fontSize: "1rem", color: "var(--brand)", textDecoration: "none" }}>{c.val}</a>
+                    : <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-primary)" }}>{c.val}</div>
+                  }
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <a href="tel:+79131916828" className="btn-primary">
+              <Icon name="Phone" size={18} />
+              Позвонить: +7 (913) 191-68-28
+            </a>
+            <a href="https://wa.me/79131916828" className="btn-ghost" target="_blank" rel="noreferrer">
+              <Icon name="MessageCircle" size={18} />
+              Написать в WhatsApp
+            </a>
           </div>
         </div>
       </section>
@@ -492,9 +479,9 @@ export default function Index() {
           <span style={{ fontWeight: 700, fontSize: "1.1rem", color: "#fff" }}>
             Тех<span style={{ color: "#60A5FA" }}>Надежно</span>
           </span>
-          <span style={{ color: "#64748B", fontSize: "0.85rem" }}>© 2024 ТехНадежно · Красноярск</span>
-          <a href="tel:+73912000000" style={{ color: "#60A5FA", fontWeight: 600, fontSize: "0.95rem", textDecoration: "none" }}>
-            +7 (391) 200-00-00
+          <span style={{ color: "#64748B", fontSize: "0.85rem" }}>© 2025 ТехНадежно · Красноярск</span>
+          <a href="tel:+79131916828" style={{ color: "#60A5FA", fontWeight: 700, fontSize: "0.95rem", textDecoration: "none" }}>
+            +7 (913) 191-68-28
           </a>
         </div>
       </footer>
