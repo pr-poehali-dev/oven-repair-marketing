@@ -4,43 +4,46 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
-    --foreground: 220 15% 10%;
+    --background: 0 0% 100%;
+    --foreground: 222 20% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 220 15% 10%;
+    --card-foreground: 222 20% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 10%;
-    --primary: 16 100% 55%;
+    --popover-foreground: 222 20% 10%;
+    --primary: 221 83% 53%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 10% 95%;
-    --secondary-foreground: 220 15% 20%;
-    --muted: 220 10% 94%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222 20% 20%;
+    --muted: 220 14% 96%;
     --muted-foreground: 220 10% 50%;
-    --accent: 16 100% 55%;
+    --accent: 221 83% 53%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 10% 88%;
-    --input: 220 10% 88%;
-    --ring: 16 100% 55%;
-    --radius: 12px;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 221 83% 53%;
+    --radius: 14px;
 
-    --brand: #ff4d1c;
-    --brand-light: rgba(255, 77, 28, 0.09);
-    --brand-border: rgba(255, 77, 28, 0.22);
-    --dark: #111318;
-    --gray: #f4f5f7;
-    --gray-mid: #e4e6ee;
-    --text-muted: #8b91a1;
+    --brand: #2563eb;
+    --brand-hover: #1d4ed8;
+    --brand-light: rgba(37, 99, 235, 0.08);
+    --brand-border: rgba(37, 99, 235, 0.2);
+    --surface: #f8f9fc;
+    --surface-2: #eef2ff;
+    --border-color: #e5e7eb;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
 
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 220 15% 10%;
-    --sidebar-primary: 16 100% 55%;
+    --sidebar-foreground: 222 20% 10%;
+    --sidebar-primary: 221 83% 53%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 10% 95%;
-    --sidebar-accent-foreground: 220 15% 10%;
-    --sidebar-border: 220 10% 88%;
-    --sidebar-ring: 16 100% 55%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 222 20% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 221 83% 53%;
   }
 }
 
@@ -52,15 +55,9 @@
     @apply bg-background text-foreground;
     font-family: "Golos Text", sans-serif;
     font-weight: 400;
-    background-color: #fafbfc;
-    color: #111318;
+    color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
-  }
-  h1,
-  h2,
-  h3 {
-    font-family: "Oswald", sans-serif;
-    font-weight: 600;
+    background: #fff;
   }
 }
 
@@ -69,17 +66,18 @@ html {
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #f4f5f7;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--brand);
-  border-radius: 10px;
+  border-radius: 4px;
 }
 
-.btn-brand {
+/* Кнопки */
+.btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -87,72 +85,77 @@ html {
   color: #fff;
   font-family: "Golos Text", sans-serif;
   font-weight: 600;
-  font-size: 0.875rem;
-  padding: 0.8rem 1.75rem;
-  border-radius: 10px;
+  font-size: 0.9rem;
+  padding: 0.8rem 1.8rem;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
   white-space: nowrap;
 }
-.btn-brand:hover {
-  background: #d93a0d;
+.btn-primary:hover {
+  background: var(--brand-hover);
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(255, 77, 28, 0.3);
+  box-shadow: 0 8px 28px rgba(37, 99, 235, 0.32);
 }
 
-.btn-outline {
+.btn-ghost {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: transparent;
-  color: var(--dark);
+  background: var(--surface);
+  color: var(--text-primary);
   font-family: "Golos Text", sans-serif;
   font-weight: 600;
-  font-size: 0.875rem;
-  padding: 0.8rem 1.75rem;
-  border-radius: 10px;
-  border: 1.5px solid var(--gray-mid);
+  font-size: 0.9rem;
+  padding: 0.8rem 1.8rem;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-color);
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
 }
-.btn-outline:hover {
-  border-color: var(--brand);
+.btn-ghost:hover {
+  border-color: var(--brand-border);
+  background: var(--brand-light);
   color: var(--brand);
 }
 
-.card-modern {
+/* Карточки */
+.card {
   background: #fff;
-  border-radius: 16px;
-  border: 1px solid var(--gray-mid);
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
   transition: all 0.25s ease;
 }
-.card-modern:hover {
+.card:hover {
   border-color: var(--brand-border);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 16px 48px rgba(37, 99, 235, 0.08);
   transform: translateY(-3px);
 }
 
-.tag {
-  display: inline-block;
+/* Теги / бейджи */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: var(--brand-light);
   color: var(--brand);
-  font-family: "Golos Text", sans-serif;
   font-weight: 600;
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
   text-transform: uppercase;
-  padding: 0.3rem 0.75rem;
-  border-radius: 6px;
 }
 
+/* Навбар */
 .nav-link {
   font-family: "Golos Text", sans-serif;
   font-weight: 500;
-  font-size: 0.875rem;
-  color: #555b6e;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -160,22 +163,31 @@ html {
   color: var(--brand);
 }
 
-.anim-init {
-  opacity: 0;
-}
-
+/* Анимации */
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.anim-init {
+  opacity: 0;
+}
 .anim {
-  animation: fadeUp 0.65s ease-out forwards;
+  animation: fadeUp 0.6s ease-out forwards;
 }
 .d1 {
   animation-delay: 0.05s;
@@ -187,11 +199,65 @@ html {
   animation-delay: 0.25s;
 }
 .d4 {
-  animation-delay: 0.35s;
+  animation-delay: 0.38s;
 }
 .d5 {
-  animation-delay: 0.45s;
+  animation-delay: 0.5s;
 }
 .d6 {
-  animation-delay: 0.55s;
+  animation-delay: 0.62s;
+}
+
+/* Инпуты */
+.input-modern {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  font-family: "Golos Text", sans-serif;
+  font-size: 0.9rem;
+  background: var(--surface);
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-primary);
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.input-modern::placeholder {
+  color: var(--text-muted);
+}
+.input-modern:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-light);
+}
+
+/* Иконка-круг */
+.icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--brand-light);
+  color: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Разделитель */
+.divider {
+  height: 1px;
+  background: var(--border-color);
+  width: 100%;
+}
+
+/* Сетка шагов */
+.step-num {
+  font-family: "Golos Text", sans-serif;
+  font-weight: 900;
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--brand-light);
+  -webkit-text-stroke: 2px var(--brand-border);
+  color: transparent;
 }
