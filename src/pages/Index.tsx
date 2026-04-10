@@ -129,7 +129,7 @@ export default function Index() {
             ))}
           </div>
 
-          <a href="tel:+73912000000" className="btn-brand hidden md:inline-flex" style={{ padding: "0.6rem 1.25rem", fontSize: "0.85rem" }}>
+          <a href="tel:+79131916828" className="btn-brand hidden md:inline-flex" style={{ padding: "0.6rem 1.25rem", fontSize: "0.85rem" }}>
             <Icon name="Phone" size={15} />
             Вызвать мастера
           </a>
@@ -147,7 +147,7 @@ export default function Index() {
                 {l.label}
               </a>
             ))}
-            <a href="tel:+73912000000" className="btn-brand" style={{ marginTop: 16, width: "100%", justifyContent: "center" }}>
+            <a href="tel:+79131916828" className="btn-brand" style={{ marginTop: 16, width: "100%", justifyContent: "center" }}>
               <Icon name="Phone" size={15} />
               Вызвать мастера
             </a>
@@ -172,9 +172,9 @@ export default function Index() {
             </p>
 
             <div className="anim-init anim d4" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 48 }}>
-              <a href="tel:+73912000000" className="btn-brand">
+              <a href="tel:+79131916828" className="btn-brand">
                 <Icon name="Phone" size={16} />
-                +7 (391) 200-00-00
+                +7 (913) 191-68-28
               </a>
               <a href="#services" className="btn-outline">
                 Наши услуги
@@ -254,7 +254,7 @@ export default function Index() {
                     </li>
                   ))}
                 </ul>
-                <a href="tel:+73912000000" className="btn-brand" style={{ marginTop: 28, width: "100%", justifyContent: "center", background: s.color }}>
+                <a href="tel:+79131916828" className="btn-brand" style={{ marginTop: 28, width: "100%", justifyContent: "center", background: s.color }}>
                   Вызвать мастера
                 </a>
               </div>
@@ -331,7 +331,7 @@ export default function Index() {
                 </div>
               ))}
             </div>
-            <a href="tel:+73912000000" className="btn-brand">
+            <a href="tel:+79131916828" className="btn-brand">
               <Icon name="Phone" size={16} />
               Позвонить сейчас
             </a>
@@ -430,73 +430,32 @@ export default function Index() {
             {contRef.inView && <SectionHead tag="Связаться с нами" title="Контакты" sub="Работаем по всему Красноярску. Выезд в день обращения." />}
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "start" }} className="grid-cols-1 md:grid-cols-2">
-            {/* Info */}
-            <div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 36 }}>
-                {[
-                  { icon: "Phone", label: "Телефон", val: "+7 (391) 200-00-00" },
-                  { icon: "MessageCircle", label: "WhatsApp / Telegram", val: "+7 (391) 200-00-00" },
-                  { icon: "MapPin", label: "Район работы", val: "Весь Красноярск и пригород" },
-                  { icon: "Clock", label: "Режим работы", val: "Ежедневно 8:00–22:00" },
-                ].map(c => (
-                  <div key={c.label} style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "18px 20px", background: "var(--gray)", borderRadius: 14 }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 10, background: "var(--brand-light)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <Icon name={c.icon} size={17} style={{ color: "var(--brand)" }} />
-                    </div>
-                    <div>
-                      <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>{c.label}</div>
-                      <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "#111318" }}>{c.val}</div>
-                    </div>
-                  </div>
-                ))}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
+            {[
+              { icon: "Phone", label: "Телефон", val: "+7 (913) 191-68-28", href: "tel:+79131916828" },
+              { icon: "MessageCircle", label: "WhatsApp / Telegram", val: "+7 (913) 191-68-28", href: "https://wa.me/79131916828" },
+              { icon: "MapPin", label: "Район работы", val: "Весь Красноярск и пригород", href: undefined },
+              { icon: "Clock", label: "Режим работы", val: "Ежедневно 8:00–22:00", href: undefined },
+            ].map(c => (
+              <div key={c.label} style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "20px", background: "var(--gray)", borderRadius: 14 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: "var(--brand-light)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Icon name={c.icon} size={18} style={{ color: "var(--brand)" }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>{c.label}</div>
+                  {c.href
+                    ? <a href={c.href} style={{ fontWeight: 700, fontSize: "1rem", color: "var(--brand)", textDecoration: "none" }}>{c.val}</a>
+                    : <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "#111318" }}>{c.val}</div>
+                  }
+                </div>
               </div>
-              <a href="tel:+73912000000" className="btn-brand" style={{ width: "100%", justifyContent: "center", padding: "1rem" }}>
-                <Icon name="Phone" size={18} />
-                Позвонить прямо сейчас
-              </a>
-            </div>
-
-            {/* Form */}
-            <div style={{ opacity: contRef.inView ? 1 : 0, transform: contRef.inView ? "none" : "translateY(20px)", transition: "all 0.7s ease 0.2s", background: "var(--gray)", borderRadius: 20, padding: "36px 32px" }}>
-              <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "1.5rem", color: "#111318", marginBottom: 6 }}>Оставить заявку</div>
-              <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: 24 }}>Перезвоним в течение 15 минут</p>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {[
-                  { ph: "Ваше имя", type: "text" },
-                  { ph: "Телефон", type: "tel" },
-                  { ph: "Марка и модель техники", type: "text" },
-                ].map(({ ph, type }) => (
-                  <input key={ph} type={type} placeholder={ph}
-                    style={{
-                      width: "100%", padding: "14px 16px", borderRadius: 10,
-                      border: "1.5px solid var(--gray-mid)", background: "#fff",
-                      fontSize: "0.9rem", color: "#111318", outline: "none",
-                      fontFamily: "'Golos Text', sans-serif", transition: "border-color 0.2s",
-                    }}
-                    onFocus={e => e.target.style.borderColor = "var(--brand)"}
-                    onBlur={e => e.target.style.borderColor = "var(--gray-mid)"}
-                  />
-                ))}
-                <textarea rows={3} placeholder="Опишите неисправность"
-                  style={{
-                    width: "100%", padding: "14px 16px", borderRadius: 10,
-                    border: "1.5px solid var(--gray-mid)", background: "#fff",
-                    fontSize: "0.9rem", color: "#111318", outline: "none", resize: "none",
-                    fontFamily: "'Golos Text', sans-serif", transition: "border-color 0.2s",
-                  }}
-                  onFocus={e => e.target.style.borderColor = "var(--brand)"}
-                  onBlur={e => e.target.style.borderColor = "var(--gray-mid)"}
-                />
-                <button className="btn-brand" style={{ width: "100%", justifyContent: "center", padding: "0.9rem" }}>
-                  Вызвать мастера
-                </button>
-                <p style={{ fontSize: "0.75rem", textAlign: "center", color: "var(--text-muted)" }}>
-                  Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
-                </p>
-              </div>
-            </div>
+            ))}
+          </div>
+          <div style={{ marginTop: 24 }}>
+            <a href="tel:+79131916828" className="btn-brand" style={{ fontSize: "1.05rem", padding: "1rem 2rem" }}>
+              <Icon name="Phone" size={18} />
+              +7 (913) 191-68-28 — Позвонить
+            </a>
           </div>
         </div>
       </section>
@@ -508,8 +467,8 @@ export default function Index() {
             ТЕХ<span style={{ color: "var(--brand)" }}>НАДЕЖНО</span>
           </a>
           <p style={{ fontSize: "0.8rem", color: "#555B6E" }}>© 2024 ТехНадежно · Ремонт духовых шкафов и варочных панелей в Красноярске</p>
-          <a href="tel:+73912000000" style={{ fontWeight: 600, color: "var(--brand)", textDecoration: "none", fontSize: "0.95rem" }}>
-            +7 (391) 200-00-00
+          <a href="tel:+79131916828" style={{ fontWeight: 600, color: "var(--brand)", textDecoration: "none", fontSize: "0.95rem" }}>
+            +7 (913) 191-68-28
           </a>
         </div>
       </footer>
